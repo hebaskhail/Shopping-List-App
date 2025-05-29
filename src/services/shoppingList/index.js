@@ -1,5 +1,5 @@
-const { shoppingList, ShoppingListItem } = require('../../models/shoppingList');
-const { findProductById } = require('../../models/product');
+const { shoppingList, ShoppingListItem } = require('../../models/ShoppingList');
+const { findProductById } = require('../../models/Product');
 
 
 function addProductToShoppingList(productId) {

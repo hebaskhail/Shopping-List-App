@@ -1,6 +1,6 @@
 // services/productService.js
 
-const { Product, products, getNextId } = require('../../models/product');
+const { Product, products, getNextId } = require('../../models/Product');
 
 /**
  * Adds a new product to the in-memory store.
