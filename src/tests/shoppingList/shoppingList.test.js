@@ -1,22 +1,16 @@
 const request = require('supertest');
-const app = require('../../app');
-const { products } = require('../models/Product');
-const { shoppingList } = require('../models/ShoppingList');
+const app = require('../../../app');
+const { products } = require('../../models/Product');
+const { shoppingList } = require('../../models/ShoppingList');
+const { testProduct } = require('../dummyDate/product');
+
 require('dotenv').config();
 
 describe('Shopping List API', () => {
     let authToken;
     let testProductId;
 
-    // Test data
-    const testProduct = {
-        name: "Test Product",
-        quantity: 100,
-        price: 99.99
-    };
 
-
-    // Before all tests, login and create a test product
     beforeAll(async () => {
         // Login to get auth token
         const loginResponse = await request(app)
@@ -177,19 +171,14 @@ describe('Shopping List API', () => {
                 .post(`/api/shopping-list/${testProductId}`)
                 .set('Authorization', `Bearer ${authToken}`);
 
-            // Verify the shopping list has exactly one item
-            const listResponse = await request(app)
-                .get('/api/shopping-list')
-                .set('Authorization', `Bearer ${authToken}`);
-            console.log("Shopping list state before test:", JSON.stringify(listResponse.body.data.items, null, 2));
-        });
+          });
 
         it('should remove product from shopping list', async () => {
             // Get current shopping list state
             const beforeDelete = await request(app)
                 .get('/api/shopping-list')
                 .set('Authorization', `Bearer ${authToken}`);
-            
+
             // Ensure we have exactly one item before deletion
             expect(beforeDelete.body.data.items).toHaveLength(1);
             expect(beforeDelete.body.data.items[0].quantity).toBe(1);

@@ -1,18 +1,14 @@
 const request = require('supertest');
-const app = require('../../app');
-const { products } = require('../models/Product');
+const app = require('../../../app');
+const { products } = require('../../models/Product');
+const { testProduct } = require('../dummyDate/product');
 require('dotenv').config();
 
 describe('Product API', () => {
     let authToken;
     let testProductId;
 
-    // Test product data
-    const validProduct = {
-        name: "Test Product",
-        quantity: 100,
-        price: 99.99
-    };
+
 
     // Before all tests, get auth token
     beforeAll(async () => {
@@ -38,7 +34,7 @@ describe('Product API', () => {
             const response = await request(app)
                 .post('/api/product')
                 .set('Authorization', `Bearer ${authToken}`)
-                .send(validProduct);
+                .send(testProduct);
 
             expect(response.status).toBe(201);
             expect(response.body).toEqual({
@@ -47,9 +43,9 @@ describe('Product API', () => {
                 message: 'Product created successfully',
                 data: expect.objectContaining({
                     id: expect.any(Number),
-                    name: validProduct.name,
-                    quantity: validProduct.quantity,
-                    price: validProduct.price
+                    name: testProduct.name,
+                    quantity: testProduct.quantity,
+                    price: testProduct.price
                 })
             });
 
@@ -58,7 +54,7 @@ describe('Product API', () => {
 
         it('should return validation error for negative quantity', async () => {
             const invalidProduct = {
-                ...validProduct,
+                ...testProduct,
                 quantity: -10
             };
 
@@ -78,7 +74,7 @@ describe('Product API', () => {
 
         it('should return validation error for negative price', async () => {
             const invalidProduct = {
-                ...validProduct,
+                ...testProduct,
                 price: -99.99
             };
 
@@ -98,7 +94,7 @@ describe('Product API', () => {
 
         it('should return validation error for empty name', async () => {
             const invalidProduct = {
-                ...validProduct,
+                ...testProduct,
                 name: ''
             };
 
@@ -125,7 +121,7 @@ describe('Product API', () => {
             const response = await request(app)
                 .post('/api/product')
                 .set('Authorization', `Bearer ${authToken}`)
-                .send(validProduct);
+                .send(testProduct);
 
             testProductId = response.body.data.id;
         });
@@ -146,9 +142,9 @@ describe('Product API', () => {
                     products: expect.arrayContaining([
                         expect.objectContaining({
                             id: expect.any(Number),
-                            name: validProduct.name,
-                            quantity: validProduct.quantity,
-                            price: validProduct.price
+                            name: testProduct.name,
+                            quantity: testProduct.quantity,
+                            price: testProduct.price
                         })
                     ]),
                     total: expect.any(Number),
@@ -185,7 +181,7 @@ describe('Product API', () => {
             const response = await request(app)
                 .post('/api/product')
                 .set('Authorization', `Bearer ${authToken}`)
-                .send(validProduct);
+                .send(testProduct);
 
             testProductId = response.body.data.id;
         });
@@ -231,8 +227,8 @@ describe('Product API', () => {
                 message: 'Product updated successfully',
                 data: expect.objectContaining({
                     id: testProductId,
-                    name: validProduct.name,
-                    quantity: validProduct.quantity,
+                    name: testProduct.name,
+                    quantity: testProduct.quantity,
                     price: partialUpdate.price
                 })
             });
@@ -260,7 +256,7 @@ describe('Product API', () => {
             const response = await request(app)
                 .post('/api/product')
                 .set('Authorization', `Bearer ${authToken}`)
-                .send(validProduct);
+                .send(testProduct);
 
             testProductId = response.body.data.id;
         });
