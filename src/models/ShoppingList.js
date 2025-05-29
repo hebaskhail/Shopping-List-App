@@ -2,7 +2,7 @@ const { findProductById } = require('./Product');
 
 class ShoppingListItem {
     constructor(productId, quantity) {
-        this.productId = productId;
+        this.productId = Number(productId);
         this.quantity = quantity;
     }
 }

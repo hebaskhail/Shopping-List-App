@@ -103,7 +103,7 @@ All product endpoints (except GET) require authentication. Include the JWT token
 
 #### Get All Products
 ```
-GET /api/products
+GET /api/product
 ```
 
 **Success Response:**
@@ -125,7 +125,7 @@ GET /api/products
 
 #### Get Single Product
 ```
-GET /api/products/:id
+GET /api/product/:id
 ```
 
 **Parameters:**
@@ -133,7 +133,7 @@ GET /api/products/:id
 
 #### Add Product
 ```
-POST /api/products
+POST /api/product
 ```
 
 **Request Body:**
@@ -147,7 +147,7 @@ POST /api/products
 
 #### Update Product
 ```
-PUT /api/products/:id
+PUT /api/product/:id
 ```
 
 **Parameters:**
@@ -165,7 +165,7 @@ All fields are optional. Only provided fields will be updated.
 
 #### Delete Product
 ```
-DELETE /api/products/:id
+DELETE /api/product/:id
 ```
 
 **Parameters:**
