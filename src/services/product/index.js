@@ -6,12 +6,23 @@ const { Product, products, getNextId } = require('../../models/product');
  * Adds a new product to the in-memory store.
  */
 function addProduct(data) {
-    const { name, quantity, price } = data;
-    const id = getNextId();
-    const newProduct = new Product(id, name, parseInt(quantity, 10), parseFloat(price));
-    products.set(id, newProduct);
+    try {
+        const { name, quantity, price } = data;
+        const id = getNextId();
+        const newProduct = new Product(id, name, parseInt(quantity, 10), parseFloat(price));
+        products.set(id, newProduct);
 
-    return newProduct;
+        return {
+            success: true,
+            statusCode: 201,
+            message: 'Product created successfully',
+            data: newProduct
+        }
+    } catch (error) {
+        return {
+            message: error.message,
+        };
+    }
 }
 
 /**
@@ -26,16 +37,23 @@ function updateProduct(data) {
 
     const product = products.get(id);
     if (!product) {
-        return { success: false, message: 'Product not found' };
+        return {
+            success: false,
+            statusCode: 404,
+            message: 'Product not found',
+            data: null
+        };
     }
+
 
 
     // Check that at least one field is provided
     if (!name && quantity === undefined && price === undefined) {
         return {
             success: false,
-            message: 'At least one field (name, quantity, price) is required to update'
-        };
+            message: 'At least one field (name, quantity, price) is required to update',
+            statusCode: 404,
+        }
     }
 
     // Update provided fields
@@ -50,7 +68,9 @@ function updateProduct(data) {
         message: 'Product updated successfully',
         data: product
     };
+
 }
+
 
 /**
  * Deletes a product by ID.
@@ -58,18 +78,19 @@ function updateProduct(data) {
 function deleteProduct(id) {
 
     if (isNaN(id)) {
-        return { success: false, message: 'Invalid product ID' };
+        return { success: false, message: 'Invalid product ID', statusCode: 402 };
     }
 
     if (!products.has(id)) {
-        return { success: false, message: 'Product not found' };
+        return { success: false, message: 'Product not found', statusCode: 404 };
     }
 
     products.delete(id);
 
     return {
         success: true,
-        message: 'Product deleted successfully'
+        message: 'Product deleted successfully',
+        statusCode: 200
     };
 }
 
@@ -87,6 +108,7 @@ function getAllProducts(data) {
         return {
             success: false,
             message: 'Offset must be >= 0 and limit must be > 0',
+            statusCode: 400
         };
     }
 
@@ -98,6 +120,7 @@ function getAllProducts(data) {
         offset,
         limit,
         data: paginatedProducts,
+        success: true
     };
 };
 

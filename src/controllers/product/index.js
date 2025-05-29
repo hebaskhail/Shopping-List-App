@@ -1,36 +1,62 @@
-// controllers/productController.js
+const AppError = require('../../utils/AppError');
+const ResponseHandler = require('../../utils/ResponseHandler');
 const productService = require('../../services/product');
 
-exports.addProduct = (req, res) => {
+exports.addProduct = (req, res, next) => {
     try {
 
-        const product = productService.addProduct(req.body);
-        res.status(201).json({ success: true, product });
-    } catch (err) {
-        res.status(400).json({ success: false, message: err.message });
+        const result = productService.addProduct(req.body);
+
+        if (!result.success) {
+            throw new AppError(result.message, result.statusCode);
+        }
+
+        ResponseHandler.success(res, result.message, result.data, result.statusCode);
+
+    } catch (error) {
+        console.log("error", error);
+        next(error);
     }
 };
 
-exports.updateProduct = (req, res) => {
+exports.updateProduct = (req, res, next) => {
     try {
-        const product = productService.updateProduct({ id: parseInt(req.params.id), ...req.body });
-        res.status(200).json({ success: true, product });
-    } catch (err) {
-        res.status(404).json({ success: false, message: err.message });
+        const result = productService.updateProduct({ id: parseInt(req.params.id), ...req.body });
+        if (!result.success) {
+            throw new AppError(result.message, result.statusCode);
+        }
+
+        ResponseHandler.success(res, result.message, result.data, result.statusCode);
+
+    } catch (error) {
+        console.log("error", error);
+        next(error);
     }
 };
 
-exports.deleteProduct = (req, res) => {
+exports.deleteProduct = (req, res, next) => {
     try {
-        productService.deleteProduct(parseInt(req.params.id));
-        res.status(200).json({ success: true, message: 'Product deleted successfully' });
-    } catch (err) {
-        res.status(404).json({ success: false, message: err.message });
+        const result = productService.deleteProduct(parseInt(req.params.id));
+        if (!result.success) {
+            throw new AppError(result.message, result.statusCode);
+        }
+
+        ResponseHandler.success(res, result.message, result.data, result.statusCode);
+
+    } catch (error) {
+        next(error);
     }
 };
 
-exports.getAllProducts = (req, res) => {
 
-    const data = productService.getAllProducts(req.query);
-    res.status(200).json(data);
-};
+exports.getAllProducts = (req, res, next) => {
+    try {
+        const result = productService.getAllProducts(req.query);
+        if (!result.success) {
+            throw new AppError(result.message, result.statusCode);
+        }
+        ResponseHandler.success(res, result.message, result.data, result.statusCode);
+    } catch (error) {
+        next(error);
+    }
+}
