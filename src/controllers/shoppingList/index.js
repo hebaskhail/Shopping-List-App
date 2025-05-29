@@ -5,7 +5,7 @@ const shoppingListService = require('../../services/shoppingList');
 exports.addProductToList = (req, res, next) => {
     try {
         const { productId } = req.params;
-        const result = shoppingListService.addProductToShoppingList(productId);
+        const result = shoppingListService.addProductToShoppingList(Number(productId));
 
         if (!result.success) {
             throw new AppError(result.message, result.statusCode);
@@ -20,7 +20,7 @@ exports.addProductToList = (req, res, next) => {
 exports.removeProductFromList = (req, res, next) => {
     try {
         const { productId } = req.params;
-        const result = shoppingListService.removeProductFromShoppingList(productId);
+        const result = shoppingListService.removeProductFromShoppingList(Number(productId));
 
         if (!result.success) {
             throw new AppError(result.message, result.statusCode);

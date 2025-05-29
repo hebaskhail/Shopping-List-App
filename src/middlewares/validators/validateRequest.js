@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const AppError = require('../../utils/AppError');
 
 
 module.exports.validateRequest = async (req, res, next) => {
@@ -8,7 +9,7 @@ module.exports.validateRequest = async (req, res, next) => {
         return next();
     }
 
-    const errors = validationResults.array().map((error) => {
+    let errors = validationResults.array().map((error) => {
         if (error.msg === 'Invalid value(s)') {
             return {
                 key: error.param,
@@ -28,5 +29,5 @@ module.exports.validateRequest = async (req, res, next) => {
         [errors] = errors;
     }
 
-    return next(errors);
+    return next(new AppError(errors.message, 422));
 };

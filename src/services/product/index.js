@@ -78,7 +78,7 @@ function updateProduct(data) {
 function deleteProduct(id) {
 
     if (isNaN(id)) {
-        return { success: false, message: 'Invalid product ID', statusCode: 402 };
+        return { success: false, message: 'Invalid product ID', statusCode: 422 };
     }
 
     if (!products.has(id)) {
@@ -98,9 +98,9 @@ function deleteProduct(id) {
  * Returns all products as an array.
  */
 function getAllProducts(data) {
-    const { offset, limit } = data;
+    const offset = parseInt(data.offset || 0);
+    const limit = parseInt(data.limit || 10);
 
-    // Convert products Map to array
     const allProducts = Array.from(products.values());
 
     // Validate offset and limit
@@ -108,7 +108,7 @@ function getAllProducts(data) {
         return {
             success: false,
             message: 'Offset must be >= 0 and limit must be > 0',
-            statusCode: 400
+            statusCode: 422
         };
     }
 

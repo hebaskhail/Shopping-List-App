@@ -1,8 +1,8 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 const { validateRequest } = require('../../middlewares/validators/validateRequest');
 
 const addToShoppingListSchema = [
-    body('productId')
+    param('productId')
         .notEmpty()
         .isInt({ min: 1 })
         .withMessage('Valid product ID is required'),
@@ -10,7 +10,7 @@ const addToShoppingListSchema = [
 ];
 
 const removeFromShoppingListSchema = [
-    body('productId')
+    param('productId')
         .notEmpty()
         .isInt({ min: 1 })
         .withMessage('Valid product ID is required'),
