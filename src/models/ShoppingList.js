@@ -1,4 +1,4 @@
-const { findProductById } = require('./product');
+const { findProductById } = require('./Product');
 
 class ShoppingListItem {
     constructor(productId, quantity) {
