@@ -2,17 +2,17 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
+const USER_EMAIL = process.env.USER_EMAIL;
+const USER_PASSWORD_HASH = process.env.USER_PASSWORD_HASH;
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
 
 const login = async (email, password) => {
-  if (email !== ADMIN_EMAIL) {
+  if (email !== USER_EMAIL) {
     return { success: false, message: 'Invalid email or password' };
   }
 
-  const isMatch = await bcrypt.compare(password, ADMIN_PASSWORD_HASH);
+  const isMatch = await bcrypt.compare(password, USER_PASSWORD_HASH);
 
   if (!isMatch) {
     return { success: false, message: 'Invalid email or password' };

@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const authAdmin = require('../../middlewares/auth/adminAuth');
+const userAuth = require('../../middlewares/auth/userAuth');
 const { addProductSchema, updateProductSchema } = require('../../validationSchemas/product');
 const { validateRequest } = require('../../middlewares/validators/validateRequest');
 const { addProduct, updateProduct, deleteProduct, getAllProducts } = require('../../controllers/product');
 
 
-// All routes protected by admin auth
-router.use(authAdmin);
+// All routes protected by user auth
+router.use(userAuth);
 
 // GET /products?offset=0&limit=10
 router.get('/', getAllProducts);
