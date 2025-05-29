@@ -1,5 +1,5 @@
 const AppError = require('../../utils/AppError');
-const ResponseHandler = require('../../utils/ResponseHandler');
+const ResponseHandler = require('../../utils/responseHandler');
 const shoppingListService = require('../../services/shoppingList');
 
 exports.addProductToList = (req, res, next) => {

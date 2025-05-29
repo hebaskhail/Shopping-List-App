@@ -1,5 +1,5 @@
 const AppError = require('../../utils/AppError');
-const ResponseHandler = require('../../utils/ResponseHandler');
+const ResponseHandler = require('../../utils/responseHandler');
 const productService = require('../../services/product');
 
 exports.addProduct = (req, res, next) => {
