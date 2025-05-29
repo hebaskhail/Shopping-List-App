@@ -10,4 +10,10 @@ router.use(
     }),
 );
 
+router.use(
+    '/product',
+    routesVersioning({
+        '^1.0.0': require('./v1/product'),
+    }),
+);
 module.exports = router;
