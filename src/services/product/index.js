@@ -116,10 +116,13 @@ function getAllProducts(data) {
     const paginatedProducts = allProducts.slice(offset, offset + limit);
 
     return {
-        total: allProducts.length,
-        offset,
-        limit,
-        data: paginatedProducts,
+
+        data: {
+            products: paginatedProducts,
+            total: allProducts.length,
+            offset,
+            limit,
+        },
         success: true
     };
 };
